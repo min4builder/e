@@ -61,5 +61,6 @@ Credits
 -------
 Mtv Europe <mtve1927@gmail.com>
     Initial release
+
 Min4Builder
     Fixed Makefile, changed some keybindings and added mad(1) page
