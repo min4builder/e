@@ -57,9 +57,9 @@ int confirm (char *s)
 
 int enter_string (char *s, char *buf)
 {
-	int	b_len, ch, flag = 1;
+	int b_len, ch, flag = 1;
 
-    for (;;) {
+        for (;;) {
 		move (LINES - 1, 0);
 		attron (A_BOLD);
 		addstr (s);
@@ -101,11 +101,11 @@ int enter_string (char *s, char *buf)
 	/* NOTREACHED */
 }
 
-int	error (char *s, ...)
+int error (char *s, ...)
 {
 	va_list	args;
-	char	buf[BUFSIZE];
-	int	i = 0;
+	char buf[BUFSIZE];
+	int i = 0;
 
 	va_start (args, s);
 	i += snprintf (buf + i, BUFSIZE - i, "Error ");
@@ -122,35 +122,35 @@ int	error (char *s, ...)
 	return 0;	/* convinient */
 }
 
-int	bol (int pos)
+int bol (int pos)
 {
 	while (pos && text[pos - 1] != '\n')
 		pos--;
 	return pos;
 }
 
-int	prevline (int pos)
+int prevline (int pos)
 {
 	pos = bol (pos);
 	return pos ? bol (pos - 1) : 0;
 }
 
-int	eol (int pos)
+int eol (int pos)
 {
 	while (pos < eof_pos && text[pos] != '\n')
 		pos++;
 	return pos;
 }
 
-int	nextline (int pos)
+int nextline (int pos)
 {
 	pos = eol (pos);
 	return pos < eof_pos ? pos + 1 : pos;
 }
 
-int	win_x (int line, int xx)
+int win_x (int line, int xx)
 {
-	int	i, x = 0;
+	int i, x = 0;
 
 	for (i = line; i < eof_pos && i < line + xx; i++)
 		if (text[i] == '\n')
@@ -162,9 +162,9 @@ int	win_x (int line, int xx)
 	return x;
 }
 
-int	pos_x (int line, int xx)
+int pos_x (int line, int xx)
 {
-	int	i, x = 0;
+	int i, x = 0;
 
 	for (i = line; i < eof_pos && x < xx; i++)
 		if (text[i] == '\n')
@@ -176,9 +176,9 @@ int	pos_x (int line, int xx)
 	return i;
 }
 
-void	show (void)
+void show (void)
 {
-	int	i, m, t, j;
+	int i, m, t, j;
 
 	/*
 	 * speed up scrolling
@@ -229,13 +229,13 @@ void	show (void)
 	attroff (A_REVERSE);
 }
 
-void	k_up (void)
+void k_up (void)
 {
 	cur_line = prevline (cur_line);
 	cur_pos = pos_x (cur_line, cur_x + win_shift);
 }
 
-void	k_down (void)
+void k_down (void)
 {
 	if (eol (cur_pos) < eof_pos) {
 		cur_line = nextline (cur_line);
@@ -243,10 +243,10 @@ void	k_down (void)
 	}
 }
 
-int	ins_mem (int size)
+int ins_mem (int size)
 {
-	char	*p;
-	int	i;
+	char *p;
+	int i;
 
 	if (!text || eof_pos + size > text_size) {
 		i = align_chunk (eof_pos + size);
@@ -271,10 +271,10 @@ int	ins_mem (int size)
 	return 1;
 }
 
-void	del_mem (int pos, int size)
+void del_mem (int pos, int size)
 {
-	int	i;
-	char	*p;
+	int i;
+	char *p;
 
 	for (i = pos + size; i < eof_pos; i++)	/* read comment to ins_mem() */
 		text[i - size] = text[i];
@@ -299,7 +299,7 @@ void	del_mem (int pos, int size)
 	}
 }
 
-void	ins_ch (char ch)
+void ins_ch (char ch)
 {
 	if (!ins_mode && cur_pos < eof_pos) {
 		if (ch == '\n') {
@@ -314,7 +314,7 @@ void	ins_ch (char ch)
 a:		text[cur_pos++] = ch;
 }
 
-void	k_copyblock (void)
+void k_copyblock (void)
 {
 	if (eos_pos <= bos_pos || (cur_pos > bos_pos && cur_pos < eos_pos))
 		beep ();
@@ -322,9 +322,9 @@ void	k_copyblock (void)
 		strncpy (text + cur_pos, text + bos_pos, eos_pos - bos_pos);
 }
 
-void	k_moveblock (void)
+void k_moveblock (void)
 {
-	int	i;
+	int i;
 
 	if (eos_pos <= bos_pos || (cur_pos > bos_pos && cur_pos < eos_pos)) {
 		beep ();
@@ -337,7 +337,7 @@ void	k_moveblock (void)
 	eos_pos = cur_pos + i;
 }
 
-void	k_deleteblock (void)
+void k_deleteblock (void)
 {
 	if (eos_pos <= bos_pos)
 		beep ();
@@ -345,9 +345,9 @@ void	k_deleteblock (void)
 		del_mem (bos_pos, eos_pos - bos_pos);
 }
 
-int	find_again (int flag)
+int find_again (int flag)
 {
-	int	f_len, i;
+	int f_len, i;
 
 	f_len = strlen (find_str);
 	if (!f_len)
@@ -362,7 +362,7 @@ int	find_again (int flag)
 	return i <= eof_pos - f_len;
 }
 
-int	k_find (void)
+int k_find (void)
 {
 	if (!enter_string ("Search for: ", find_str) || !*find_str)
 		return 0;
@@ -370,9 +370,9 @@ int	k_find (void)
 	return find_again (0);
 }
 
-void	replace_again (void)
+void replace_again (void)
 {
-	int	i;
+	int i;
 
 	if (!find_again (0))
 		return;
@@ -386,7 +386,7 @@ void	replace_again (void)
 	}
 }
 
-void	k_replace (void)
+void k_replace (void)
 {
 	if (!k_find ())
 		return;
@@ -396,7 +396,7 @@ void	k_replace (void)
 	replace_again ();
 }
 
-void	k_again (void)
+void k_again (void)
 {
 	if (find_mode)
 		find_again (1);
@@ -404,10 +404,10 @@ void	k_again (void)
 		replace_again ();
 }
 
-int	load (char *name)
+int load (char *name)
 {
-	FILE	*f;
-	int	i;
+	FILE *f;
+	int i;
 
 	f = fopen (name, "r");
 	if (!f)
@@ -426,9 +426,9 @@ int	load (char *name)
 	return i;
 }
 
-int	save (char *name, int pos, int size)
+int save (char *name, int pos, int size)
 {
-	FILE	*f;
+	FILE *f;
 
 	f = fopen (name, "w");
 	if (!f)
@@ -440,7 +440,7 @@ int	save (char *name, int pos, int size)
 	return 1;
 }
 
-void	k_save (void)
+void k_save (void)
 {
 	if (!enter_string ("Enter file name to save: ", file_name))
 		return;
@@ -448,7 +448,7 @@ void	k_save (void)
 		is_changed = 0;
 }
 
-void	k_getblock (void)
+void k_getblock (void)
 {
 	if (!enter_string ("Enter file name to load block: ", block_name))
 		return;
@@ -456,7 +456,7 @@ void	k_getblock (void)
 	bos_pos = cur_pos;
 }
 
-void	k_putblock (void)
+void k_putblock (void)
 {
 	if (bos_pos >= eos_pos)
 		return;
@@ -473,7 +473,7 @@ void goto_line (int l)
 
 void k_goto (void)
 {
-	char	buf[STRMAX];
+	char buf[STRMAX];
 
 	*buf = 0;
 	if (!enter_string ("Goto line: ", buf))
@@ -505,7 +505,7 @@ void init (void)
 
 void norm_cur (void)
 {
-	int	i;
+	int i;
 
 	cur_line = bol (cur_pos);
 	while (cur_line < bow_line)
@@ -528,7 +528,7 @@ void norm_cur (void)
 
 int main (int argv, char **argc)
 {
-	int	i, ch;
+	int i, ch;
 
 	init ();
     if (argv > 2) error ("Too many arguments!");
@@ -593,12 +593,12 @@ int main (int argv, char **argc)
 		case CTRL ('Y'):	/* del line */
 			del_mem (cur_line, nextline (cur_line) - cur_line);
 			break;
-		/*case CTRL ('B'):	/* mark Begin of block */
+		case CTRL ('G'):	/* mark beGin of block */
 			bos_pos = cur_pos;
 			break;
 		case CTRL ('E'):	/* mark End of block */
 			eos_pos = cur_pos;
-			break;*/
+			break;
 		case CTRL ('Q'):	/* Quote char */
 			ins_ch (getch ());
 			break;
