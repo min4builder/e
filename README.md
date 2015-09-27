@@ -27,8 +27,8 @@ Controls
     ^F: find string (not reg exp, usual string, exact case)
     ^R: replace one string by another
     ^N: repeat last operation of find or replace
-    - ^B: mark begin of block (you'll see if beginning mark before ending)
-    - ^E: mark end of block
+    ^G: mark begin of block (you'll see if beginning mark before ending)
+    ^E: mark end of block
     ^C: copy marked block to current position
     ^V: move marked block to current position
     ^D: delete marked block
@@ -38,11 +38,11 @@ Controls
 Hints
 -----
 - You can edit binary files because `e` doesn't format anything
-- To reset block selection put ending mark before or at beginning mark (^B^E)
+- To reset block selection put ending mark before or at beginning mark (^G^E)
 - You can convert Dos files (crlf) to Unix (lf) easily: while pressing
 Ctrl type trqmmmnnnnnnnnn... :)
 - ...and back to Dos: trqjmqmqjmnnn...
-- By analogy be careful to Ctrl while typing something like 'tboed'
+- By analogy be careful to Ctrl while typing something like 'tgbed'
 - There is no auto save feature, so backup your data in time 
 
 Bugs
