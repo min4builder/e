@@ -59,8 +59,10 @@ latest version of this program and found a bug, you must inform me about it
 
 Credits
 -------
+```
 Mtv Europe <mtve1927@gmail.com>
     Initial release
 
 Min4Builder
     Fixed Makefile, changed some keybindings and added mad(1) page
+```
